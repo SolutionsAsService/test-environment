@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Embedded Lab — Virtual MCU Testing Environment
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+</head>
+
+<body>
+
+    <!-- =====================================================
+         APPLICATION HEADER
+    ====================================================== -->
+
+    <header class="app-header">
+
+        <div class="brand">
+
+            <div class="brand-mark">
+                EL
+            </div>
+
+            <div>
+
+                <h1>
+                    Embedded Lab
+                </h1>
+
+                <p>
+                    Virtual MCU Testing Environment
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="header-status">
+
+            <span
+                id="runtimeStatus"
+                class="status-badge"
+            >
+                READY
+            </span>
+
+            <span
+                id="runtime"
+                class="runtime"
+            >
+                00:00
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN APPLICATION
+    ====================================================== -->
+
+    <main class="app-container">
+
+
+        <!-- =================================================
+             TOP CONTROL BAR
+        ================================================== -->
+
+        <section class="control-bar">
+
+            <div class="control-group">
+
+                <label for="mcuSelect">
+                    Target MCU
+                </label>
+
+                <select id="mcuSelect">
+                    <option value="ESP32">
+                        ESP32
+                    </option>
+
+                    <option value="ESP32_S3">
+                        ESP32-S3
+                    </option>
+
+                    <option value="ESP8266">
+                        ESP8266
+                    </option>
+
+                    <option value="ARDUINO_UNO">
+                        Arduino Uno
+                    </option>
+
+                    <option value="ARDUINO_NANO">
+                        Arduino Nano
+                    </option>
+                </select>
+
+            </div>
+
+
+            <div class="control-actions">
+
+                <button
+                    id="runButton"
+                    class="button button-run"
+                >
+                    ▶ Run
+                </button>
+
+                <button
+                    id="stopButton"
+                    class="button button-stop"
+                >
+                    ■ Stop
+                </button>
+
+                <button
+                    id="resetButton"
+                    class="button button-reset"
+                >
+                    ↻ Reset
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             MCU INFORMATION
+        ================================================== -->
+
+        <section class="panel mcu-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        Virtual Hardware
+                    </h2>
+
+                    <p>
+                        Simulated microcontroller configuration
+                    </p>
+
+                </div>
+
+                <span class="panel-indicator">
+                    VIRTUAL
+                </span>
+
+            </div>
+
+
+            <div
+                id="mcuInfo"
+                class="mcu-info"
+            >
+
+                <!-- Populated by app.js -->
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             WORKSPACE
+        ================================================== -->
+
+        <section class="workspace">
+
+
+            <!-- =============================================
+                 CODE EDITOR
+            ============================================== -->
+
+            <div class="panel editor-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Arduino Sketch
+                        </h2>
+
+                        <p>
+                            Paste your firmware here
+                        </p>
+
+                    </div>
+
+                    <span class="language-badge">
+                        C++
+                    </span>
+
+                </div>
+
+
+                <textarea
+                    id="sketchEditor"
+                    spellcheck="false"
+                    placeholder="// Paste your Arduino sketch here
+
+#include <Arduino.h>
+
+void setup() {
+    Serial.begin(115200);
+
+    pinMode(2, OUTPUT);
+
+    Serial.println(&quot;Hello Virtual MCU!&quot;);
+}
+
+void loop() {
+
+    digitalWrite(2, HIGH);
+    delay(500);
+
+    digitalWrite(2, LOW);
+    delay(500);
+}"
+                ></textarea>
+
+
+                <div class="editor-footer">
+
+                    <span>
+                        Arduino-compatible source
+                    </span>
+
+                    <span>
+                        Virtual execution mode
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 SERIAL MONITOR
+            ============================================== -->
+
+            <div class="panel serial-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Serial Monitor
+                        </h2>
+
+                        <p>
+                            Virtual UART output
+                        </p>
+
+                    </div>
+
+                    <span class="connection-dot">
+                        ●
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="serialOutput"
+                    class="serial-output"
+                >
+
+                    <div class="serial-line">
+
+                        <span class="serial-time">
+                            00:00
+                        </span>
+
+                        <span>
+                            [LAB] Virtual MCU ready.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             OBSERVATION GRID
+        ================================================== -->
+
+        <section class="observation-grid">
+
+
+            <!-- =============================================
+                 OLED
+            ============================================== -->
+
+            <div class="panel observation-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            OLED Display
+                        </h2>
+
+                        <p>
+                            Virtual SSD1306
+                        </p>
+
+                    </div>
+
+                    <span class="hardware-label">
+                        I²C
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="oledDisplay"
+                    class="oled-container"
+                >
+
+                    <div class="virtual-oled">
+
+                        <div>
+                            AUTHEO
+                        </div>
+
+                        <div>
+                            VIRTUAL MCU
+                        </div>
+
+                        <div>
+                            READY
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 GPIO
+            ============================================== -->
+
+            <div class="panel observation-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            GPIO
+                        </h2>
+
+                        <p>
+                            Digital pin state
+                        </p>
+
+                    </div>
+
+                    <span class="hardware-label">
+                        DIGITAL
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="gpioPanel"
+                    class="gpio-panel"
+                >
+
+                    <div class="empty-state">
+
+                        No GPIO activity
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =============================================
+                 WIFI
+            ============================================== -->
+
+            <div class="panel observation-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            Network
+                        </h2>
+
+                        <p>
+                            Virtual Wi-Fi interface
+                        </p>
+
+                    </div>
+
+                    <span class="hardware-label">
+                        Wi-Fi
+                    </span>
+
+                </div>
+
+
+                <div
+                    id="wifiStatus"
+                    class="wifi-panel"
+                >
+
+                    <div>
+
+                        <strong>
+                            SSID
+                        </strong>
+
+                        <span>
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            IP
+                        </strong>
+
+                        <span>
+                            0.0.0.0
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            RSSI
+                        </strong>
+
+                        <span>
+                            — dBm
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            State
+                        </strong>
+
+                        <span>
+                            DISCONNECTED
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================== -->
+
+        <section class="panel statistics-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        Runtime Statistics
+                    </h2>
+
+                    <p>
+                        Virtual machine telemetry
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="stats"
+                class="stats-grid"
+            >
+
+                <div class="stat">
+
+                    <span>
+                        Loops
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        Serial
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        GPIO Events
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        OLED Updates
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        Wi-Fi Events
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+
+                <div class="stat">
+
+                    <span>
+                        Errors
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             EVENT STREAM
+        ================================================== -->
+
+        <section class="panel event-panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h2>
+                        Virtual Hardware Events
+                    </h2>
+
+                    <p>
+                        Runtime observation stream
+                    </p>
+
+                </div>
+
+                <span class="panel-indicator">
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div
+                id="eventStream"
+                class="event-stream"
+            >
+
+                <div class="empty-state">
+
+                    Waiting for simulation...
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="app-footer">
+
+        <div>
+            Embedded Lab
+        </div>
+
+        <div>
+            Virtual Hardware Environment
+        </div>
+
+        <div>
+            Protocol v0.1
+        </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         APPLICATION JAVASCRIPT
+    ====================================================== -->
+
+    <script
+        src="app.js"
+    ></script>
+
+</body>
+
+</html>
