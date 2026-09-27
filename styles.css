@@ -1,0 +1,1475 @@
+/* ============================================================
+   EMBEDDED LAB — PROFESSIONAL HARDWARE LAB UI
+   Dynamic / Responsive / Mobile Friendly
+   ============================================================ */
+
+:root {
+  --bg: #070a0d;
+  --bg-deep: #040608;
+  --panel: #0c1116;
+  --panel-2: #10171d;
+  --panel-3: #141c23;
+
+  --border: #202c35;
+  --border-light: #2c3b46;
+
+  --text: #dce6eb;
+  --text-soft: #8c9aa4;
+  --text-muted: #5d6a73;
+
+  --green: #42f59b;
+  --green-dark: #174e37;
+  --green-glow: rgba(66, 245, 155, 0.22);
+
+  --cyan: #45d9ff;
+  --cyan-dark: #174553;
+  --cyan-glow: rgba(69, 217, 255, 0.18);
+
+  --yellow: #f5d35b;
+  --yellow-dark: #574b1c;
+
+  --red: #ff5964;
+  --red-dark: #542126;
+
+  --orange: #ff9f43;
+
+  --radius: 8px;
+  --radius-small: 5px;
+
+  --shadow:
+    0 10px 30px rgba(0, 0, 0, 0.35);
+
+  --mono:
+    "SFMono-Regular",
+    "Cascadia Code",
+    "Roboto Mono",
+    Consolas,
+    monospace;
+
+  --sans:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* ============================================================
+   GLOBAL
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  background: var(--bg-deep);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 15% 0%,
+      rgba(69, 217, 255, 0.055),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 85% 10%,
+      rgba(66, 245, 155, 0.045),
+      transparent 30%
+    ),
+    linear-gradient(
+      180deg,
+      #070a0d 0%,
+      #05080b 100%
+    );
+
+  color: var(--text);
+  font-family: var(--sans);
+
+  overflow-x: hidden;
+}
+
+
+/* subtle engineering grid */
+
+body::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.12;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 32px 32px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    transparent 80%
+  );
+}
+
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  min-height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 22px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(9, 14, 18, 0.98),
+      rgba(7, 10, 13, 0.96)
+    );
+
+  border-bottom: 1px solid var(--border);
+
+  box-shadow:
+    0 8px 30px rgba(0, 0, 0, 0.32);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--green-dark);
+  border-radius: 7px;
+
+  color: var(--green);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(66,245,155,0.08),
+      rgba(69,217,255,0.03)
+    );
+
+  box-shadow:
+    inset 0 0 16px rgba(66,245,155,0.04),
+    0 0 18px rgba(66,245,155,0.05);
+
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.brand h1 {
+  margin: 0;
+
+  font-size: 16px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+}
+
+.brand small {
+  display: block;
+
+  margin-top: 2px;
+
+  color: var(--text-muted);
+
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 6px 10px;
+
+  border: 1px solid var(--border);
+  border-radius: 20px;
+
+  background: rgba(255,255,255,0.015);
+
+  color: var(--text-soft);
+
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.status-badge::before {
+  content: "";
+
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--text-muted);
+}
+
+.status-badge.running {
+  color: var(--green);
+  border-color: rgba(66,245,155,0.25);
+}
+
+.status-badge.running::before {
+  background: var(--green);
+
+  box-shadow:
+    0 0 8px var(--green);
+}
+
+.runtime {
+  color: var(--text-muted);
+
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   MAIN CONTAINER
+   ============================================================ */
+
+.app-container {
+  width: min(1800px, calc(100% - 36px));
+
+  margin: 0 auto;
+
+  padding: 20px 0 40px;
+}
+
+
+/* ============================================================
+   CONTROL BAR
+   ============================================================ */
+
+.control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  padding: 12px 14px;
+
+  margin-bottom: 14px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(16,23,29,0.95),
+      rgba(11,16,21,0.95)
+    );
+
+  box-shadow: var(--shadow);
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-group label {
+  color: var(--text-muted);
+
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+#mcuSelect {
+  min-width: 190px;
+
+  padding: 8px 32px 8px 11px;
+
+  color: var(--text);
+
+  background: var(--panel-3);
+
+  border: 1px solid var(--border-light);
+  border-radius: 5px;
+
+  outline: none;
+
+  font-family: var(--mono);
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+#mcuSelect:hover {
+  border-color: var(--cyan-dark);
+}
+
+#mcuSelect:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px var(--cyan-glow);
+}
+
+.control-actions {
+  display: flex;
+  gap: 7px;
+}
+
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+.button {
+  min-height: 34px;
+
+  padding: 7px 13px;
+
+  border: 1px solid var(--border-light);
+  border-radius: 5px;
+
+  color: var(--text-soft);
+
+  background: #10161b;
+
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+
+  cursor: pointer;
+
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    transform 100ms ease,
+    box-shadow 120ms ease;
+}
+
+.button:hover {
+  background: #172028;
+  color: var(--text);
+  border-color: #3b4c58;
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.button-run {
+  color: var(--green);
+  border-color: rgba(66,245,155,0.28);
+}
+
+.button-run:hover {
+  background: rgba(66,245,155,0.08);
+
+  border-color: var(--green);
+
+  box-shadow:
+    0 0 14px rgba(66,245,155,0.12);
+}
+
+.button-stop {
+  color: var(--red);
+}
+
+.button-stop:hover {
+  background: rgba(255,89,100,0.08);
+  border-color: var(--red);
+}
+
+.button-reset {
+  color: var(--cyan);
+}
+
+.button-reset:hover {
+  background: rgba(69,217,255,0.08);
+  border-color: var(--cyan);
+}
+
+
+/* ============================================================
+   PANELS
+   ============================================================ */
+
+.panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(14,20,26,0.96),
+      rgba(9,14,18,0.96)
+    );
+
+  box-shadow: var(--shadow);
+
+  overflow: hidden;
+}
+
+.panel-header {
+  min-height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 12px;
+
+  border-bottom: 1px solid var(--border);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.018),
+      rgba(255,255,255,0)
+    );
+}
+
+.panel-header h2,
+.panel-header h3 {
+  margin: 0;
+
+  color: var(--text-soft);
+
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.panel-indicator {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--green);
+
+  box-shadow:
+    0 0 8px rgba(66,245,155,0.6);
+}
+
+
+/* ============================================================
+   MCU INFO
+   ============================================================ */
+
+.mcu-panel {
+  margin-bottom: 14px;
+}
+
+.mcu-info {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(150px, 1fr));
+
+  gap: 1px;
+
+  background: var(--border);
+}
+
+.mcu-info > div {
+  min-height: 58px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 9px 12px;
+
+  background: var(--panel);
+}
+
+
+/* ============================================================
+   WORKSPACE
+   ============================================================ */
+
+.workspace {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1.45fr)
+    minmax(340px, 0.8fr);
+
+  gap: 14px;
+
+  margin-bottom: 14px;
+}
+
+
+/* ============================================================
+   EDITOR
+   ============================================================ */
+
+.editor-panel {
+  min-width: 0;
+}
+
+.language-badge {
+  padding: 4px 7px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 4px;
+
+  color: var(--cyan);
+
+  background: rgba(69,217,255,0.04);
+
+  font-family: var(--mono);
+  font-size: 9px;
+
+  text-transform: uppercase;
+}
+
+#sketchEditor {
+  display: block;
+
+  width: 100%;
+  min-height: 470px;
+
+  resize: vertical;
+
+  padding: 16px;
+
+  border: 0;
+  outline: 0;
+
+  color: #cbd7dd;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.018),
+      transparent 4%
+    ),
+    #070b0e;
+
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.7;
+
+  tab-size: 2;
+
+  white-space: pre;
+
+  caret-color: var(--green);
+}
+
+#sketchEditor::selection {
+  background: rgba(69,217,255,0.2);
+}
+
+#sketchEditor:focus {
+  box-shadow:
+    inset 0 0 0 1px rgba(69,217,255,0.12);
+}
+
+.editor-footer {
+  min-height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  border-top: 1px solid var(--border);
+
+  color: var(--text-muted);
+
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+
+/* ============================================================
+   SERIAL MONITOR
+   ============================================================ */
+
+.serial-panel {
+  min-width: 0;
+}
+
+.connection-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: var(--text-muted);
+}
+
+.connection-dot.connected {
+  background: var(--green);
+
+  box-shadow:
+    0 0 8px rgba(66,245,155,0.65);
+}
+
+#serialOutput {
+  height: 470px;
+
+  overflow-y: auto;
+
+  padding: 10px 12px;
+
+  background:
+    radial-gradient(
+      circle at 20% 0%,
+      rgba(66,245,155,0.025),
+      transparent 40%
+    ),
+    #05080a;
+
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+#serialOutput::-webkit-scrollbar,
+#sketchEditor::-webkit-scrollbar {
+  width: 8px;
+}
+
+#serialOutput::-webkit-scrollbar-track,
+#sketchEditor::-webkit-scrollbar-track {
+  background: #05080a;
+}
+
+#serialOutput::-webkit-scrollbar-thumb,
+#sketchEditor::-webkit-scrollbar-thumb {
+  background: #1c2931;
+  border-radius: 10px;
+}
+
+#serialOutput::-webkit-scrollbar-thumb:hover,
+#sketchEditor::-webkit-scrollbar-thumb:hover {
+  background: #2b3d48;
+}
+
+.serial-line {
+  display: flex;
+
+  gap: 9px;
+
+  padding: 1px 0;
+
+  color: #aebbc2;
+}
+
+.serial-time {
+  flex: 0 0 auto;
+
+  color: #50606a;
+
+  user-select: none;
+}
+
+.serial-line::before {
+  content: ">";
+
+  color: var(--green);
+}
+
+
+/* ============================================================
+   OBSERVATION GRID
+   ============================================================ */
+
+.observation-grid {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr)
+    minmax(0, 1fr);
+
+  gap: 14px;
+
+  margin-bottom: 14px;
+}
+
+.observation-panel {
+  min-width: 0;
+  min-height: 260px;
+}
+
+.hardware-label {
+  color: var(--text-muted);
+
+  font-family: var(--mono);
+  font-size: 9px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+
+/* ============================================================
+   VIRTUAL OLED
+   ============================================================ */
+
+.oled-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 220px;
+
+  padding: 22px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(255,255,255,0.025),
+      transparent 60%
+    );
+}
+
+.virtual-oled {
+  width: min(100%, 320px);
+
+  aspect-ratio: 128 / 64;
+
+  padding: 8px;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-start;
+
+  overflow: hidden;
+
+  color: #b9ffe0;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,0.018) 0,
+      rgba(255,255,255,0.018) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    #06100c;
+
+  border: 5px solid #17211e;
+
+  border-radius: 4px;
+
+  box-shadow:
+    inset 0 0 25px rgba(66,245,155,0.08),
+    0 0 0 1px #26352f,
+    0 12px 30px rgba(0,0,0,0.45);
+
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.35;
+
+  text-shadow:
+    0 0 5px rgba(66,245,155,0.35);
+}
+
+
+/* ============================================================
+   GPIO
+   ============================================================ */
+
+.gpio-panel {
+  padding-bottom: 10px;
+}
+
+#gpioPanel {
+  max-height: 220px;
+
+  overflow-y: auto;
+
+  padding: 10px 12px;
+}
+
+.gpio-row {
+  display: grid;
+
+  grid-template-columns:
+    48px
+    1fr
+    50px;
+
+  align-items: center;
+
+  gap: 10px;
+
+  min-height: 28px;
+
+  border-bottom: 1px solid rgba(255,255,255,0.025);
+
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.gpio-row:last-child {
+  border-bottom: 0;
+}
+
+.gpio-pin {
+  color: var(--cyan);
+}
+
+.gpio-value {
+  color: var(--text-muted);
+}
+
+.gpio-led {
+  width: 9px;
+  height: 9px;
+
+  justify-self: end;
+
+  border-radius: 50%;
+
+  background: #273139;
+
+  box-shadow:
+    inset 0 0 0 1px #34434c;
+}
+
+.gpio-high .gpio-led {
+  background: var(--green);
+
+  box-shadow:
+    0 0 9px rgba(66,245,155,0.65);
+}
+
+.gpio-high .gpio-value {
+  color: var(--green);
+}
+
+.gpio-low .gpio-value {
+  color: #64717a;
+}
+
+.empty-state {
+  padding: 35px 15px;
+
+  color: var(--text-muted);
+
+  text-align: center;
+
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   WIFI
+   ============================================================ */
+
+.wifi-panel {
+  min-height: 260px;
+}
+
+#wifiStatus {
+  padding: 14px;
+}
+
+.wifi-card {
+  display: grid;
+
+  gap: 10px;
+}
+
+.wifi-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 8px 10px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 5px;
+
+  background: rgba(255,255,255,0.012);
+}
+
+.wifi-field-label {
+  color: var(--text-muted);
+
+  font-family: var(--mono);
+  font-size: 9px;
+
+  text-transform: uppercase;
+}
+
+.wifi-field-value {
+  color: var(--cyan);
+
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+
+/* ============================================================
+   STATISTICS
+   ============================================================ */
+
+.statistics-panel {
+  margin-bottom: 14px;
+}
+
+#stats {
+  padding: 12px;
+}
+
+.stats-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(6, minmax(100px, 1fr));
+
+  gap: 8px;
+}
+
+.stat {
+  min-height: 65px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 10px;
+
+  border: 1px solid var(--border);
+
+  border-radius: 5px;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.018),
+      rgba(255,255,255,0.005)
+    );
+}
+
+.stat-label {
+  margin-bottom: 5px;
+
+  color: var(--text-muted);
+
+  font-family: var(--mono);
+  font-size: 8px;
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-value {
+  color: var(--green);
+
+  font-family: var(--mono);
+  font-size: 16px;
+}
+
+
+/* ============================================================
+   EVENT STREAM
+   ============================================================ */
+
+.event-panel {
+  margin-bottom: 14px;
+}
+
+.event-stream {
+  max-height: 190px;
+
+  overflow-y: auto;
+
+  padding: 10px 12px;
+
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+.event {
+  display: grid;
+
+  grid-template-columns:
+    85px
+    80px
+    1fr;
+
+  gap: 8px;
+
+  padding: 5px 0;
+
+  border-bottom: 1px solid rgba(255,255,255,0.025);
+}
+
+.event-time {
+  color: var(--text-muted);
+}
+
+.event-type {
+  color: var(--cyan);
+}
+
+.event-message {
+  color: #9caab2;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 2px;
+
+  color: var(--text-muted);
+
+  font-family: var(--mono);
+  font-size: 9px;
+
+  letter-spacing: 0.04em;
+}
+
+.app-footer strong {
+  color: #83929b;
+  font-weight: 600;
+}
+
+
+/* ============================================================
+   SCROLLBARS
+   ============================================================ */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #25343d #070a0d;
+}
+
+
+/* ============================================================
+   RESPONSIVE — TABLET
+   ============================================================ */
+
+@media (max-width: 1200px) {
+
+  .workspace {
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(300px, 0.75fr);
+  }
+
+  .observation-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .wifi-panel {
+    grid-column: span 2;
+  }
+
+  .stats-grid {
+    grid-template-columns:
+      repeat(3, minmax(100px, 1fr));
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE — MOBILE
+   ============================================================ */
+
+@media (max-width: 820px) {
+
+  .app-header {
+    position: relative;
+
+    align-items: flex-start;
+
+    padding: 12px 14px;
+  }
+
+  .header-status {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .runtime {
+    display: none;
+  }
+
+  .app-container {
+    width: calc(100% - 20px);
+
+    padding-top: 10px;
+  }
+
+  .control-bar {
+    align-items: stretch;
+    flex-direction: column;
+
+    padding: 10px;
+  }
+
+  .control-group {
+    width: 100%;
+
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #mcuSelect {
+    width: 100%;
+  }
+
+  .control-actions {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+      1fr 1fr 1fr;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  #sketchEditor,
+  #serialOutput {
+    min-height: 320px;
+    height: 320px;
+  }
+
+  .observation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wifi-panel {
+    grid-column: auto;
+  }
+
+  .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .mcu-info {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .app-footer {
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 5px;
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE — SMALL PHONE
+   ============================================================ */
+
+@media (max-width: 500px) {
+
+  .app-header {
+    min-height: 60px;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+
+    font-size: 13px;
+  }
+
+  .brand h1 {
+    font-size: 13px;
+  }
+
+  .brand small {
+    font-size: 7px;
+  }
+
+  .status-badge {
+    padding: 5px 7px;
+    font-size: 8px;
+  }
+
+  .app-container {
+    width: calc(100% - 12px);
+
+    padding-bottom: 20px;
+  }
+
+  .panel {
+    border-radius: 6px;
+  }
+
+  .panel-header {
+    min-height: 36px;
+  }
+
+  .mcu-info {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mcu-info > div {
+    min-height: 52px;
+    padding: 7px 9px;
+  }
+
+  .control-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .button {
+    min-height: 38px;
+  }
+
+  #sketchEditor,
+  #serialOutput {
+    min-height: 280px;
+    height: 280px;
+
+    font-size: 11px;
+  }
+
+  .oled-container {
+    padding: 15px;
+  }
+
+  .virtual-oled {
+    width: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stat {
+    min-height: 60px;
+  }
+
+  .stat-value {
+    font-size: 14px;
+  }
+
+  .event {
+    grid-template-columns:
+      65px
+      65px
+      1fr;
+
+    font-size: 9px;
+  }
+}
+
+
+/* ============================================================
+   TOUCH DEVICES
+   ============================================================ */
+
+@media (hover: none) {
+
+  .button {
+    min-height: 40px;
+  }
+
+  #mcuSelect {
+    min-height: 40px;
+  }
+
+  .button:hover {
+    background: #10161b;
+    border-color: var(--border-light);
+  }
+
+  .button-run:hover {
+    background: rgba(66,245,155,0.04);
+    border-color: rgba(66,245,155,0.28);
+  }
+
+  .button-stop:hover {
+    background: transparent;
+    border-color: var(--border-light);
+  }
+
+  .button-reset:hover {
+    background: transparent;
+    border-color: var(--border-light);
+  }
+}
+
+
+/* ============================================================
+   ACCESSIBILITY
+   ============================================================ */
+
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(69,217,255,0.55);
+  outline-offset: 2px;
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+
+/* ============================================================
+   OPTIONAL LIVE STATES
+   These work automatically if JS adds the classes.
+   ============================================================ */
+
+[data-state="running"] {
+  color: var(--green);
+}
+
+[data-state="stopped"] {
+  color: var(--text-muted);
+}
+
+[data-state="error"] {
+  color: var(--red);
+}
+
+[data-state="warning"] {
+  color: var(--yellow);
+}
+
+
+/* ============================================================
+   HARDWARE SIGNAL EFFECTS
+   ============================================================ */
+
+.signal-active {
+  color: var(--green);
+
+  text-shadow:
+    0 0 8px rgba(66,245,155,0.35);
+}
+
+.signal-warning {
+  color: var(--yellow);
+
+  text-shadow:
+    0 0 8px rgba(245,211,91,0.25);
+}
+
+.signal-error {
+  color: var(--red);
+
+  text-shadow:
+    0 0 8px rgba(255,89,100,0.25);
+}
+
+
+/* ============================================================
+   PRINT
+   ============================================================ */
+
+@media print {
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  body::before {
+    display: none;
+  }
+
+  .control-bar {
+    display: none;
+  }
+
+  .panel {
+    box-shadow: none;
+    border: 1px solid #999;
+  }
+}
